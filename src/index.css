@@ -35,3 +35,12 @@ input:focus {
   border: 1px solid #3a5bd3;
   box-shadow: 0 0 4px 0 #7d90de;
 }
+span{
+  font-size: 20px;
+}
+button{
+  width:7rem;
+  height: 3rem;
+  font-size: 1.1rem;
+  margin: 1rem;
+}
