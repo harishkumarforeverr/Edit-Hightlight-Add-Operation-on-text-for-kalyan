@@ -2,10 +2,12 @@
 .search-container {
   box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   margin: 10px auto 20px auto;
-  max-width: 450px;
+  /* max-width: 450px; */
   padding: 0 2%;
+  gap:3rem;
+  margin: 2rem;
 }
 
 label {
@@ -20,27 +22,32 @@ input {
   background: #fff;
   border: 1px solid #535353;
   border-radius: 4px;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+  /* box-sizing: border-box;
+  font-family: 'Inter', sans-serif; */
   font-size: 14px;
   height: 38px;
-  line-height: 38px;
+  /* line-height: 38px;
   outline: none;
   padding: 0 10px;
-  transition: all 0.5s;
+  transition: all 0.5s; */
   width: 100%;
 }
 
-input:focus {
+/* input:focus {
   border: 1px solid #3a5bd3;
   box-shadow: 0 0 4px 0 #7d90de;
-}
-span{
-  font-size: 20px;
-}
+} */
+ 
 button{
   width:7rem;
   height: 3rem;
   font-size: 1.1rem;
   margin: 1rem;
+}
+.paragraphContainer{
+  margin: 1rem 0;
+}
+.paragraphContainer span{
+  font-size: 1.3rem;
+  /* display: inline-block; */
 }
