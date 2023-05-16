@@ -54,8 +54,9 @@ export default function App() {
             type="search"
             onChange={(e) => {
               const { value } = e.target;
-              if(value=="" || value==" "){
-                setSearchedText(""); 
+              if (value == "" || value == " ") {
+                setSearchedText("");
+                setMatchedTextCount(0);
               }
               setinputsearchedText(value);
             }}

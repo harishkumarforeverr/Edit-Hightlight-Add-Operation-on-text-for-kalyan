@@ -43,6 +43,7 @@ button{
   height: 3rem;
   font-size: 1.1rem;
   margin: 1rem;
+  cursor: pointer;
 }
 .paragraphContainer{
   margin: 1rem 0;
