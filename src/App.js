@@ -9,11 +9,12 @@ const initialParagraph = [
 ];
 
 export default function App() {
-  const [matchedTextCount, setMatchedTextCount] = useState(0);
+  const [matchedTextCount, setMatchedTextCount] = useState(-1);
   const [searchedText, setSearchedText] = useState("");
   const [inputsearchedText, setinputsearchedText] = useState("");
   const [paragraphs, setParagraphs] = useState(initialParagraph);
   const [addNewParagraph, setAddNewParagraph] = useState("");
+  const [activeCount, setActiveCount] = useState(-1);
   const evaluatedParts = paragraphs.map((text) => {
     // return text.split(new RegExp(`(${searchedText})`, "gi"));
     return text.split(" ");
@@ -24,7 +25,7 @@ export default function App() {
   useEffect(() => {
     if (searchedText == "" || searchedText == " " || searchedText == "  ")
       return;
-    let count = 0;
+    let count = -1;
     evaluatedParts.forEach((parts) => {
       count += parts.filter(
         (part, index) =>
@@ -42,7 +43,11 @@ export default function App() {
   const searchHandler = () => {
     setSearchedText(inputsearchedText);
   };
+  let count = -1;
+  useEffect(()=>{
 
+    console.log("activeCountactiveCount",activeCount)
+  },[activeCount])
   return (
     <div>
       <div className="search-container">
@@ -57,6 +62,7 @@ export default function App() {
               if (value == "" || value == " ") {
                 setSearchedText("");
                 setMatchedTextCount(0);
+                setActiveCount(-1)
               }
               setinputsearchedText(value);
             }}
@@ -80,7 +86,7 @@ export default function App() {
       </div>
 
       <div>
-        matched Text Count : {matchedTextCount}
+        {/* matched Text Count : {matchedTextCount+1} */}
         <br />
         <br />
       </div>
@@ -88,15 +94,22 @@ export default function App() {
       <div>
         <span>
           {evaluatedParts.map((parts) => {
+
             const str = parts.map((part, index) => {
+            
               console.log("partpartpartpartpartpartpart", part, searchedText);
               if (
                 searchedText !== "" &&
                 searchedText !== " " &&
                 part.toLowerCase().includes(searchedText.toLowerCase())
               ) {
+                count++;
+                console.log("dabcjkabchfkdav",activeCount ,count,activeCount == count)
                 return (
-                  <span key={index} style={{ color: "red" }}>
+                  <span
+                    key={index}
+                    style={{ background: activeCount == count ? "#2d80b5" : "red", fontWeight:600, color:"white" }}
+                  >
                     {part}{" "}
                   </span>
                 );
@@ -120,7 +133,34 @@ export default function App() {
           {" "}
           find{" "}
         </button>
-        <button onClick={handleBtnClick}> find Next </button>
+        <button  style={{
+            color: "white",
+            background: "#087f5b",
+            // #4fb8b6
+          }} onClick={(e)=>{
+          e.preventDefault();
+          if(!searchedText) return
+          if(activeCount<matchedTextCount){
+             setActiveCount((prev)=>prev+1)
+          }else{
+            setActiveCount(0)
+          }
+        }}> find Next </button>
+        
+        <button  style={{
+            color: "white",
+            background: "#364fc7",
+            // #4fb8b6
+          }} onClick={(e)=>{
+          e.preventDefault();
+          if(!searchedText) return
+          if(activeCount<=0){
+            setActiveCount(matchedTextCount)
+          }else{
+             setActiveCount((prev)=>prev-1)
+            
+          }
+        }}> find prev </button>
         <button
           style={{
             color: "white",
