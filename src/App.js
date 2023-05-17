@@ -14,6 +14,7 @@ export default function App() {
   const [inputsearchedText, setinputsearchedText] = useState("");
   const [paragraphs, setParagraphs] = useState(initialParagraph);
   const [addNewParagraph, setAddNewParagraph] = useState("");
+  const [replaceText, setReplaceText] = useState("");
   const [activeCount, setActiveCount] = useState(-1);
   const evaluatedParts = paragraphs.map((text) => {
     // return text.split(new RegExp(`(${searchedText})`, "gi"));
@@ -31,7 +32,7 @@ export default function App() {
         (part, index) =>
           searchedText !== "" &&
           searchedText !== " " &&
-          part.toLowerCase().includes(searchedText.toLowerCase())
+          part.toLowerCase() == searchedText.toLowerCase()
       ).length;
     });
     setMatchedTextCount(count);
@@ -44,10 +45,66 @@ export default function App() {
     setSearchedText(inputsearchedText);
   };
   let count = -1;
-  useEffect(()=>{
+  useEffect(() => {
+    console.log("activeCountactiveCount", activeCount);
+  }, [activeCount]);
 
-    console.log("activeCountactiveCount",activeCount)
-  },[activeCount])
+  const handleTheReplace = () => {
+    const evaluatedParts = paragraphs.map((text) => {
+      // return text.split(new RegExp(`(${searchedText})`, "gi"));
+      return text.split(" ");
+    });
+    let count = -1;
+    const newEvaluatedParts = evaluatedParts.map((parts) => {
+      const str = parts.map((part, index) => {
+        if (part.toLowerCase() == searchedText.toLowerCase()) count++;
+        console.log("partphaauhaupart", activeCount, count, part, searchedText);
+        if (
+          searchedText !== "" &&
+          searchedText !== " " &&
+          activeCount == count
+        ) {
+          count++;
+          console.log(
+            "dabcjkabchfkdav",
+            activeCount,
+            count,
+            activeCount == count
+          );
+          return replaceText;
+        } else {
+          return part;
+        }
+      });
+      return str.join(" ");
+    });
+    setParagraphs(newEvaluatedParts);
+    console.log("evaluahahahtedParts", newEvaluatedParts);
+  };
+  const handleTheReplaceAll = () => {
+    const evaluatedParts = paragraphs.map((text) => {
+      // return text.split(new RegExp(`(${searchedText})`, "gi"));
+      return text.split(" ");
+    });
+    let count = -1;
+    const newEvaluatedParts = evaluatedParts.map((parts) => {
+      const str = parts.map((part, index) => {
+        if (
+          searchedText !== "" &&
+          searchedText !== " " &&
+          part.toLowerCase() == searchedText.toLowerCase()
+        ) {
+          return replaceText;
+        } else {
+          return part;
+        }
+      });
+      return str.join(" ");
+    });
+    setParagraphs(newEvaluatedParts);
+    console.log("evaluahahahtedParts", newEvaluatedParts);
+  };
+  console.log("activeCountactiveCount",activeCount)
   return (
     <div>
       <div className="search-container">
@@ -62,7 +119,7 @@ export default function App() {
               if (value == "" || value == " ") {
                 setSearchedText("");
                 setMatchedTextCount(0);
-                setActiveCount(-1)
+                setActiveCount(-1);
               }
               setinputsearchedText(value);
             }}
@@ -94,21 +151,28 @@ export default function App() {
       <div>
         <span>
           {evaluatedParts.map((parts) => {
-
             const str = parts.map((part, index) => {
-            
               console.log("partpartpartpartpartpartpart", part, searchedText);
               if (
                 searchedText !== "" &&
                 searchedText !== " " &&
-                part.toLowerCase().includes(searchedText.toLowerCase())
+                part.toLowerCase() == searchedText.toLowerCase()
               ) {
                 count++;
-                console.log("dabcjkabchfkdav",activeCount ,count,activeCount == count)
+                console.log(
+                  "dabcjkabchfkdav",
+                  activeCount,
+                  count,
+                  activeCount == count
+                );
                 return (
                   <span
                     key={index}
-                    style={{ background: activeCount == count ? "#2d80b5" : "red", fontWeight:600, color:"white" }}
+                    style={{
+                      background: activeCount == count ? "#2d80b5" : "red",
+                      fontWeight: 600,
+                      color: "white",
+                    }}
                   >
                     {part}{" "}
                   </span>
@@ -133,34 +197,45 @@ export default function App() {
           {" "}
           find{" "}
         </button>
-        <button  style={{
+        <button
+          style={{
             color: "white",
             background: "#087f5b",
             // #4fb8b6
-          }} onClick={(e)=>{
-          e.preventDefault();
-          if(!searchedText) return
-          if(activeCount<matchedTextCount){
-             setActiveCount((prev)=>prev+1)
-          }else{
-            setActiveCount(0)
-          }
-        }}> find Next </button>
-        
-        <button  style={{
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            if (!searchedText) return;
+            if (activeCount < matchedTextCount) {
+              setActiveCount((prev) => prev + 1);
+            } else {
+              setActiveCount(0);
+            }
+          }}
+        >
+          {" "}
+          find Next{" "}
+        </button>
+
+        <button
+          style={{
             color: "white",
             background: "#364fc7",
             // #4fb8b6
-          }} onClick={(e)=>{
-          e.preventDefault();
-          if(!searchedText) return
-          if(activeCount<=0){
-            setActiveCount(matchedTextCount)
-          }else{
-             setActiveCount((prev)=>prev-1)
-            
-          }
-        }}> find prev </button>
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            if (!searchedText) return;
+            if (activeCount <= 0) {
+              setActiveCount(matchedTextCount);
+            } else {
+              setActiveCount((prev) => prev - 1);
+            }
+          }}
+        >
+          {" "}
+          find prev{" "}
+        </button>
         <button
           style={{
             color: "white",
@@ -179,8 +254,51 @@ export default function App() {
           {" "}
           Add{" "}
         </button>
-        <button onClick={handleBtnClick}> Replace </button>
-        <button onClick={handleBtnClick}> Replace All </button>
+        <button
+          style={{
+            color: "white",
+            background: "#d9480f",
+          }}
+          // onClick={handleTheReplace}
+          onClick={(e) => {
+            e.preventDefault();
+            if (!searchedText && activeCount!==-1) {return alert("please search something and find the value by next")};
+        //  if()
+            handleTheReplace();
+          }}
+        >
+          {" "}
+          Replace{" "}
+        </button>
+        <button
+          style={{
+            color: "white",
+            background: "#c92a2a",
+          }}
+          // onClick={handleTheReplaceAll}
+          onClick={(e) => {
+            e.preventDefault();
+            if (!searchedText && activeCount!==-1) {return alert("please search something and find the value by next")};
+            handleTheReplaceAll();
+          }}
+        >
+          {" "}
+          Replace All{" "}
+        </button>
+      </div>
+      <div>
+        <label for="replace">enter the text</label>
+        <input
+          id="replace"
+          placeholder="enter the text"
+          type="replace"
+          value={replaceText}
+          onChange={(e) => {
+            const { value } = e.target;
+            setReplaceText(value);
+          }}
+          autocomplete="off"
+        />
       </div>
     </div>
   );
